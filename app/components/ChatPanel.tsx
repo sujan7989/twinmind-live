@@ -29,13 +29,20 @@ export function ChatPanel({
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // When a suggestion is clicked, pre-fill the input with a natural question
+  // Auto-resize textarea to fit content, capped at 4 lines
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 96) + "px"; // 96px ≈ 4 lines
+  }, [input]);
+
+  // When a suggestion is clicked, pre-fill the input
   useEffect(() => {
     if (pendingSuggestion) {
       const label = SUGGESTION_TYPE_LABELS[pendingSuggestion.suggestion.type] ?? "";
       const text = `${label}: ${pendingSuggestion.suggestion.preview}`;
       setInput(text);
-      // Small delay so the textarea is visible before focusing
       setTimeout(() => inputRef.current?.focus(), 50);
     }
   }, [pendingSuggestion]);
@@ -117,14 +124,15 @@ export function ChatPanel({
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask anything about the conversation…"
-            rows={2}
-            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white/90 placeholder-white/25 resize-none focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all scrollbar-thin"
+            rows={1}
+            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white/90 placeholder-white/25 resize-none focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all scrollbar-thin overflow-y-auto"
+            style={{ maxHeight: "96px", minHeight: "38px" }}
             aria-label="Chat input"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="p-2.5 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+            className="p-2.5 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all shrink-0"
             aria-label="Send message"
           >
             <SendIcon className="w-4 h-4" />
