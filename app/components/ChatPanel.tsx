@@ -96,9 +96,11 @@ export function ChatPanel({
       {/* Input area */}
       <div className="px-4 py-3 border-t border-white/10">
         {pendingSuggestion && (
-          <div className="flex items-center gap-2 mb-2 px-2.5 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
-            <span className="text-xs text-blue-400 flex-1 truncate">
-              {SUGGESTION_TYPE_LABELS[pendingSuggestion.suggestion.type]}:{" "}
+          <div className="flex items-center gap-2 mb-2 px-2.5 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 min-w-0">
+            <span className="text-xs text-blue-400 shrink-0">
+              {SUGGESTION_TYPE_LABELS[pendingSuggestion.suggestion.type]}
+            </span>
+            <span className="text-xs text-blue-300/70 truncate flex-1 min-w-0">
               {pendingSuggestion.suggestion.preview}
             </span>
             <button
