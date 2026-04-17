@@ -93,14 +93,14 @@ export function ChatPanel({
         <div ref={bottomRef} />
       </div>
 
-      {/* Input area */}
-      <div className="px-4 py-3 border-t border-white/10">
+      {/* Input area — fixed height, never grows */}
+      <div className="shrink-0 px-4 py-3 border-t border-white/10">
         {pendingSuggestion && (
-          <div className="flex items-center gap-2 mb-2 px-2.5 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 min-w-0">
-            <span className="text-xs text-blue-400 shrink-0">
-              {SUGGESTION_TYPE_LABELS[pendingSuggestion.suggestion.type]}
+          <div className="flex items-center gap-1.5 mb-2 px-2.5 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 overflow-hidden">
+            <span className="text-xs text-blue-400 whitespace-nowrap shrink-0">
+              {SUGGESTION_TYPE_LABELS[pendingSuggestion.suggestion.type]}:
             </span>
-            <span className="text-xs text-blue-300/70 truncate flex-1 min-w-0">
+            <span className="text-xs text-blue-300/70 truncate min-w-0 flex-1">
               {pendingSuggestion.suggestion.preview}
             </span>
             <button
@@ -108,14 +108,14 @@ export function ChatPanel({
                 onClearPendingSuggestion();
                 setInput("");
               }}
-              className="text-white/30 hover:text-white/60 transition-colors shrink-0"
+              className="text-white/30 hover:text-white/60 transition-colors shrink-0 ml-1"
               aria-label="Clear suggestion"
             >
-              <XIcon className="w-3.5 h-3.5" />
+              <XIcon className="w-3 h-3" />
             </button>
           </div>
         )}
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-end">
           <textarea
             ref={inputRef}
             value={input}
@@ -123,11 +123,12 @@ export function ChatPanel({
             onKeyDown={handleKeyDown}
             placeholder={
               pendingSuggestion
-                ? "Add a follow-up question or press Send…"
+                ? "Add a follow-up or press Send…"
                 : "Ask anything about the conversation…"
             }
             rows={2}
-            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white/90 placeholder-white/25 resize-none focus:outline-none focus:border-blue-500/50 focus:bg-white/8 transition-all scrollbar-thin"
+            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white/90 placeholder-white/25 resize-none focus:outline-none focus:border-blue-500/50 transition-all scrollbar-thin"
+            style={{ height: "60px" }}
             aria-label="Chat input"
           />
           <button

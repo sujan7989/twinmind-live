@@ -281,8 +281,8 @@ export default function Home() {
 
       {/* ── Three-column layout ──────────────────────────────────────────── */}
       <div className="flex flex-1 min-h-0 divide-x divide-white/8">
-        {/* Left: Transcript */}
-        <div className="w-[28%] min-w-[240px] flex flex-col min-h-0">
+        {/* Left: Transcript — equal width */}
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
           <TranscriptPanel
             chunks={session.transcriptChunks}
             isRecording={isRecording}
@@ -294,8 +294,8 @@ export default function Home() {
           />
         </div>
 
-        {/* Middle: Live Suggestions */}
-        <div className="w-[36%] flex flex-col min-h-0">
+        {/* Middle: Live Suggestions — equal width */}
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
           <SuggestionsPanel
             batches={session.suggestionBatches}
             isGenerating={session.isGeneratingSuggestions}
@@ -306,8 +306,8 @@ export default function Home() {
           />
         </div>
 
-        {/* Right: Chat */}
-        <div className="flex-1 flex flex-col min-h-0">
+        {/* Right: Chat — equal width */}
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
           <ChatPanel
             messages={session.chatMessages}
             isLoading={session.isChatLoading}
